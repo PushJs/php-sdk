@@ -1,0 +1,17 @@
+{
+  "name": "pushjs/php-sdk",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/dotready/php-unionplatform"
+    }
+  ],
+  "require": {
+
+  },
+  "autoload": {
+    "psr-4": {
+      "pushjs\\": "src/pushjs"
+    }
+  }
+}
