@@ -66,6 +66,8 @@ class Unionplatform
         $upc->addArgument('');
         $upc->addArgument($name);
         $upc->addArgument($value);
+        $upc->addArgument('');
+        $upc->addArgument(4);
 
         $data = $this->querybuilder->buildHttpQuery(
             UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
@@ -147,49 +149,54 @@ class Unionplatform
         return $upc;
     }
 
-    /**
-     * Create a room
-     *
-     * @param string $roomId
-     * @return array
-     * @throws PhpunionplatformException
-     */
+
     public function createRoom($roomId)
     {
         $upc = new UpcBuilder(UpcMessageId::MESSAGE_ID_CREATE_ROOM);
         $upc->addArgument($roomId);
-        return $this->sendUpc($upc);
+
+        $data = $this->querybuilder->buildHttpQuery(
+            UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
+            array(
+                UpcHttpRequestParam::HTTP_REQUEST_PARAM_DATA => utf8_encode($upc->getUpc())
+            ),
+            $this->getRequestNumber(),
+            $this->sessionId
+        );
+
+        $this->httpClient->send($data);
+
+        $upc = $this->poll();
+
+        $xml = $this->upcReader->read($upc);
+
+        //return (string) $xml->xpath('/root/U/L/A')[5] === 'SUCCESS';
     }
 
-    /**
-     * Join a room
-     *
-     * @param string $roomId
-     * @param string $password
-     * @return array
-     * @throws PhpunionplatformException
-     */
-    public function joinRoom($roomId, $password = '')
+    public function joinRoom($roomId)
     {
         $upc = new UpcBuilder(UpcMessageId::MESSAGE_ID_JOIN_ROOM);
         $upc->addArgument($roomId);
-        return $this->sendUpc($upc);
+
+        $data = $this->querybuilder->buildHttpQuery(
+            UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
+            array(
+                UpcHttpRequestParam::HTTP_REQUEST_PARAM_DATA => utf8_encode($upc->getUpc())
+            ),
+            $this->getRequestNumber(),
+            $this->sessionId
+        );
+
+        $this->httpClient->send($data);
+
+        $upc = $this->poll();
+
+$xml = $this->upcReader->read($upc);
+
+        //return (string) $xml->xpath('/root/U/L/A')[5] === 'SUCCESS';
     }
 
-    /**
-     * Send a message to a specific
-     * user in a room
-     *
-     * @todo fix the includeSelf param, this causes an exception on the server
-     *
-     * @param string $roomId
-     * @param string $message
-     * @param bool $includeSelf
-     * @param array $filters
-     * @param array $params
-     * @return array
-     * @internal param int $userId
-     */
+
     public function sendMessage(
         $roomId,
         $message,
@@ -199,10 +206,13 @@ class Unionplatform
     ) {
         $upc = new UpcBuilder(UpcMessageId::MESSAGE_ID_SEND_MESSAGE_TO_ROOMS);
 
-        $upc->addArgument($message);
         $upc->addArgument($roomId);
+        $upc->addArgument('eba02592-2b87-437b-b363-766cbd87230e');
         $upc->addArgument(($includeSelf) ? 'true' : 'false');
         $upc->addFilters($filters);
+        $upc->addArgument($message);
+
+
 
         if (count($params) > 0) {
             foreach ($params as $param) {
@@ -210,9 +220,38 @@ class Unionplatform
             }
         }
 
-        return $this->sendUpc($upc);
+        echo "\n\n";
+        var_dump($upc->getUpc());
+        echo "\n\n";
+
+        $data = $this->querybuilder->buildHttpQuery(
+            UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
+            array(
+                UpcHttpRequestParam::HTTP_REQUEST_PARAM_DATA => utf8_encode($upc->getUpc())
+            ),
+            $this->getRequestNumber(),
+            $this->sessionId
+        );
+
+        $this->httpClient->send($data);
+
+        $upc = $this->poll();
+
+        $xml = $this->upcReader->read($upc);
+
     }
 
+    public function longpoll()
+    {
+        $data = $this->querybuilder->buildHttpQuery(
+            UpcHttpRequestMode::HTTP_REQUEST_MODE_RECEIVE,
+            [],
+            $this->getRequestNumber(),
+            $this->sessionId ?? ''
+        );
+echo "\npoll";
+        return $this->httpClient->send($data);
+    }
 
     public function poll(): string
     {
@@ -239,28 +278,6 @@ class Unionplatform
     {
         $this->requestNumber += 1;
         return $this->requestNumber;
-    }
-
-    private function sendUpc(UpcBuilder $upc)
-    {
-        $data = $this->querybuilder->buildHttpQuery(
-            UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
-            array(
-                UpcHttpRequestParam::HTTP_REQUEST_PARAM_REQUEST_ID   => $this->getRequestNumber(),
-                UpcHttpRequestParam::HTTP_REQUEST_PARAM_SESSION_ID   => $this->sessionId,
-                UpcHttpRequestParam::HTTP_REQUEST_PARAM_DATA         => $upc->getUpc()
-            )
-        );
-
-        try {
-            $upc = $this->httpClient->send($data);
-        } catch (PhpunionplatformException $e) {
-            return false;
-        }
-
-        return $this->upcReader->readUpc(
-            $upc
-        );
     }
 
     public static function getNullTerminateChar()

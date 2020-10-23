@@ -8,11 +8,12 @@ use pushjs\library\client\HttpClient;
 
 $host = '192.168.56.105';
 $port = 9100;
-$domain = 'example.com';
+$domain = '192.168.56.105';
 
-$room = 'systemChannel';
+$room = 'BATTLE_CHANNEL';
 
-$key = '1111';
+$key = 'eba02592-2b87-437b-b363-766cbd87230e';
+//$key = '1111';
 
 // create new http interface
 $httpClient = new HttpClient($host, $port);
@@ -24,14 +25,29 @@ $unionplatformService = new Unionplatform(
 
 // connect, shake hands and say hello
 $unionplatformService->connect($domain, $key, false);
+$unionplatformService->setClientAttribute('name', 'php client');
+$unionplatformService->setClientAttribute('id', 2);
+$unionplatformService->setClientAttribute('channel', 'BATTLE');
+
+$json = json_encode([
+    'text' => 'BOOM!',
+    'userId' => 2
+]);
+
+$unionplatformService->joinRoom($room);
+$unionplatformService->sendMessage($room, $json, true, [], ["henlo"]);
+
+$i  = 0;
+while ($i < 20) {
+    $i++;
+    $unionplatformService->longpoll();
+    usleep(250000);
+}
+
 
 
 exit;
-// create a room
-$unionplatformService->createRoom($room);
 
-// join it
-$unionplatformService->joinRoom($room);
 
 // send a room message, if the userid is set it will send only to that user
 // the last two parameters (userId, params[]) are optional
