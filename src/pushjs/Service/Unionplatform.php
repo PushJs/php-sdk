@@ -225,13 +225,6 @@ class Unionplatform
         );
 
         $this->httpClient->send($data);
-
-        //$upc = $this->poll();
-
-        //$xml = $this->upcReader->read($upc);
-
-        //var_dump($xml);
-
     }
 
     public function sendMessage(string $channelId, string $event, string $message) {

@@ -2,10 +2,6 @@
 
 require "vendor/autoload.php";
 
-use pushjs\service\Unionplatform;
-use pushjs\library\client\HttpsClient;
-use pushjs\library\client\HttpClient;
-
 $host = '192.168.56.105';
 $port = 9100;
 $domain = 'bijons';
@@ -14,47 +10,30 @@ $channelId = 'BATTLE_CHANNEL';
 
 $key = 'eba02592-2b87-437b-b363-766cbd87230e';
 
-$client = new \pushjs\Service\PushJS($key, $host, $port, false);
+$pushJS = new \pushjs\Service\PushJS($key, $host, $port, false);
 
-$client->connect();
+$pushJS->connect();
 
-exit;
+$pushJS->getClientManager()->setAttribute('name', 'PHP');
+$pushJS->getClientManager()->setAttribute('channel', 'BATTLE');
 
-// connect, shake hands and say hello
-$connected = $unionplatformService->connect($domain, $key, false);
+$pushJS->getChannelManager()->createChannel($channelId);
+$pushJS->getChannelManager()->joinChannel($channelId, 'undefined');
 
-if (!$connected) {
-    echo 'can not connect to ' . $host . "\n";
-    exit;
-}
+$pushJS->getEventManager()->dispatchEvent($channelId, 'CHAT_MESSAGE', json_encode([
+        'text' => 'BOOM!',
+        'foo' => true
+    ])
+);
 
-$unionplatformService->setClientAttribute('name', 'PHP');
-$unionplatformService->setClientAttribute('id', 2);
-$unionplatformService->setClientAttribute('channel', 'BATTLE');
+$pushJS->getEventManager()->dispatchPrivateEvent(77, 'CHAT_MESSAGE', json_encode([
+        'text' => 'BOOM!',
+        'foo' => true
+    ])
+);
 
-$json = json_encode([
-    'text' => 'BOOM!',
-    'userId' => 2
-]);
-
-$unionplatformService->joinRoom($channelId, $password);
-$unionplatformService->sendMessage($channelId, 'CHAT_MESSAGE', $json);
-
-
-
-$i  = 0;
-while ($i < 20) {
-    $i++;
-    $unionplatformService->longpoll();
-    usleep(250000);
-    flush();
-}
-
-
-
-exit;
-
-
-// send a room message, if the userid is set it will send only to that user
-// the last two parameters (userId, params[]) are optional
-$unionplatformService->sendMessage($room, 'NOTIFY', 17, array('hello my friend!'));
+$pushJS->getEventManager()->dispatchFilteredEvent(77, 'CHAT_MESSAGE', json_encode([
+        'text' => 'BOOM!',
+        'foo' => true
+    ])
+);

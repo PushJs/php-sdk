@@ -37,10 +37,27 @@ class ConnectionManager
         $par = $handshake->getClientInfo($this->sessionId);
         $this->clientId = $handshake->getClientId($par);
 
-        var_dump($this->sessionId);
-        var_dump($this->clientId);
-
         return true;
+    }
+
+    public function getRequestNumber(): int
+    {
+        return $this->requestNumber->getRequestNumber();
+    }
+
+    public function getSessionId(): string
+    {
+        return $this->sessionId;
+    }
+
+    public function getClientId(): int
+    {
+        return $this->clientId;
+    }
+
+    public function getHttpClient(): HttpClientInterface
+    {
+        return $this->httpClient;
     }
 
     public static function getNullTerminateChar()
