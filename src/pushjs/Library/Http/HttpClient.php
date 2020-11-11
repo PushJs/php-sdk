@@ -40,7 +40,7 @@ class HttpClient implements HttpClientInterface
      */
     public function send($data): string
     {
-        $socket = stream_socket_client("tcp://" . $this->host . ":" . $this->port, $errno, $errstr, 8);
+        $socket = @stream_socket_client("tcp://" . $this->host . ":" . $this->port, $errno, $errstr, 8);
 
         if (!$socket) {
             throw new PhpunionplatformException('Socket connection failed');

@@ -44,11 +44,16 @@ class Unionplatform
 
     public function connect(string $domain, string $key, bool $secure): bool
     {
-        $this->handshake();
+        $success = $this->handshake();
+
+        if (!$success) {
+            return false;
+        }
+
         $success = $this->setApiKey($key);
 
         if ($success) {
-            echo 'CONNECTED';
+            echo "CONNECTED\n";
         }
 
         return true;
@@ -56,10 +61,10 @@ class Unionplatform
 
     public function setApiKey(string $key): bool
     {
-        return $this->setClientAttribute('apikey', $key);
+        return $this->setAnonymousClientAttribute('apikey', $key);
     }
 
-    public function setClientAttribute(string $name, string $value): bool
+    public function setAnonymousClientAttribute(string $name, string $value)
     {
         $upc = new UpcBuilder(UpcMessageId::SET_CLIENT_ATTR);
         $upc->addArgument($this->clientId);
@@ -86,6 +91,30 @@ class Unionplatform
 
         return (string) $xml->xpath('/root/U/L/A')[5] === 'SUCCESS';
     }
+
+    public function setClientAttribute(string $name, string $value): bool
+    {
+        $upc = new UpcBuilder(UpcMessageId::SEND_MODULE_MESSAGE);
+        $upc->addArgument('PushJS');
+        $upc->addArgument("SET_ATTRIBUTE");
+        $upc->addArgument("name|" . $name);
+        $upc->addArgument("value|"  .$value);
+
+
+        $data = $this->querybuilder->buildHttpQuery(
+            UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
+            array(
+                UpcHttpRequestParam::HTTP_REQUEST_PARAM_DATA => utf8_encode($upc->getUpc())
+            ),
+            $this->getRequestNumber(),
+            $this->sessionId
+        );
+
+        $this->httpClient->send($data);
+
+        return true;
+
+    }
     /**
      * This is the handshake as defined in the
      * documentation. send a 65 CLIENT HELLO
@@ -93,7 +122,7 @@ class Unionplatform
      * @return string
      * @throws PhpunionplatformException
      */
-    public function handshake()
+    public function handshake(): bool
     {
         $userAgent = ''
             . 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:47.0)'
@@ -146,7 +175,7 @@ class Unionplatform
 
         $this->clientId = (string) $xml->xpath('/root/U/L/A')[2];
 
-        return $upc;
+        return true;
     }
 
 
@@ -173,10 +202,18 @@ class Unionplatform
         //return (string) $xml->xpath('/root/U/L/A')[5] === 'SUCCESS';
     }
 
-    public function joinRoom($roomId)
+
+
+    public function joinRoom(string $channelId, string $password)
     {
-        $upc = new UpcBuilder(UpcMessageId::MESSAGE_ID_JOIN_ROOM);
-        $upc->addArgument($roomId);
+
+
+        $upc = new UpcBuilder(UpcMessageId::SEND_MODULE_MESSAGE);
+        $upc->addArgument('PushJS');
+        $upc->addArgument("JOIN_CHANNEL");
+        $upc->addArgument("channelId|" . $channelId);
+        $upc->addArgument("password|" . $password);
+
 
         $data = $this->querybuilder->buildHttpQuery(
             UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
@@ -189,40 +226,22 @@ class Unionplatform
 
         $this->httpClient->send($data);
 
-        $upc = $this->poll();
+        //$upc = $this->poll();
 
-$xml = $this->upcReader->read($upc);
+        //$xml = $this->upcReader->read($upc);
 
-        //return (string) $xml->xpath('/root/U/L/A')[5] === 'SUCCESS';
+        //var_dump($xml);
+
     }
 
+    public function sendMessage(string $channelId, string $event, string $message) {
 
-    public function sendMessage(
-        $roomId,
-        $message,
-        $includeSelf = false,
-        array $filters = array(),
-        array $params = array()
-    ) {
-        $upc = new UpcBuilder(UpcMessageId::MESSAGE_ID_SEND_MESSAGE_TO_ROOMS);
-
-        $upc->addArgument($roomId);
-        $upc->addArgument('eba02592-2b87-437b-b363-766cbd87230e');
-        $upc->addArgument(($includeSelf) ? 'true' : 'false');
-        $upc->addFilters($filters);
-        $upc->addArgument($message);
-
-
-
-        if (count($params) > 0) {
-            foreach ($params as $param) {
-                $upc->addArgument($param);
-            }
-        }
-
-        echo "\n\n";
-        var_dump($upc->getUpc());
-        echo "\n\n";
+        $upc = new UpcBuilder(UpcMessageId::SEND_MODULE_MESSAGE);
+        $upc->addArgument('PushJS');
+        $upc->addArgument("SEND_MESSAGE");
+        $upc->addArgument("channelId|" . $channelId);
+        $upc->addArgument("message|"  . $message);
+        $upc->addArgument("event|"  . $event);
 
         $data = $this->querybuilder->buildHttpQuery(
             UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
@@ -235,9 +254,7 @@ $xml = $this->upcReader->read($upc);
 
         $this->httpClient->send($data);
 
-        $upc = $this->poll();
-
-        $xml = $this->upcReader->read($upc);
+        return true;
 
     }
 
@@ -249,7 +266,7 @@ $xml = $this->upcReader->read($upc);
             $this->getRequestNumber(),
             $this->sessionId ?? ''
         );
-echo "\npoll";
+
         return $this->httpClient->send($data);
     }
 

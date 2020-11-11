@@ -29,4 +29,6 @@ class UpcMessageId
     const ATTRIBUTE_MAX_CLIENTS = '_MAX_CLIENTS';
 
     const ATTRIBUTE_PASSWORD = '_PASSWORD';
+
+    const SEND_MODULE_MESSAGE = 'u71';
 }

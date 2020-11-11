@@ -37,7 +37,8 @@ class UpcBuilder
         $node = $list->appendChild($argument);
 
         if (!empty($value)) {
-            $text = $this->upc->createCDATASection($value);
+            $text = new \DOMText($value);
+           // $text = $this->upc->createCDATASection($value);
         } else {
             $text = new \DOMText($value);
         }
