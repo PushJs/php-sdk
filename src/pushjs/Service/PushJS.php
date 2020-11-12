@@ -3,6 +3,7 @@
 namespace pushjs\Service;
 
 use pushjs\Library\Channel\ChannelManager;
+use pushjs\Library\Client\Client;
 use pushjs\Library\Client\ClientManager;
 use pushjs\Library\Event\EventManager;
 use pushjs\Library\Http\ConnectionManager;
@@ -41,11 +42,12 @@ class PushJS
         $this->eventManager = new EventManager($this->connectionManager);
     }
 
-    public function connect(): bool
+    public function connect(): Client
     {
         $this->connectionManager->handshake();
         $this->clientManager->setAttribute('apikey', $this->key);
-        return true;
+
+        return new Client($this->connectionManager->getClientId(), ['key' => $this->key]);
     }
 
     public function getConnectionManager(): ConnectionManager

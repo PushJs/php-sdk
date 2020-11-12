@@ -14,13 +14,15 @@ $key = 'eba02592-2b87-437b-b363-766cbd87230e';
 
 $pushJS = new PushJS($key, $host, $port, false);
 
-$pushJS->connect();
+$client = $pushJS->connect();
 
 $pushJS->getClientManager()->setAttribute('name', 'PHP');
 $pushJS->getClientManager()->setAttribute('channel', 'BATTLE');
 
-$pushJS->getChannelManager()->createChannel($channelId);
-$pushJS->getChannelManager()->joinChannel($channelId, 'undefined');
+$channel = $pushJS->getChannelManager()->createChannel($channelId);
+$channel->join($client, 'undefined');
+
+//$pushJS->getChannelManager()->joinChannel($channelId, 'undefined');
 
 $pushJS->getEventManager()->dispatchEvent($channelId, 'CHAT_MESSAGE', json_encode([
         'text' => 'BOOM!',

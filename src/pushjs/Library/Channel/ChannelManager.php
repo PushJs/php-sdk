@@ -15,13 +15,15 @@ class ChannelManager
 
     private $queryBuilder;
 
+    private $channels;
+
     public function __construct(ConnectionManager $connectionManager)
     {
         $this->connectionManager = $connectionManager;
         $this->queryBuilder = new HttpQueryBuilder();
     }
 
-    public function createChannel(string $channelId, array $attributes = [])
+    public function createChannel(string $channelId, array $attributes = []): Channel
     {
         $upc = new UpcBuilder(UpcMessageId::SEND_MODULE_MESSAGE);
         $upc->addArgument('PushJS');
@@ -42,6 +44,11 @@ class ChannelManager
         );
 
         $this->connectionManager->getHttpClient()->send($data);
+
+        $channel = new Channel($this, $channelId, $attributes);
+        $this->channels[] = $channel;
+
+        return $channel;
     }
 
     public function joinChannel(string $channelId, string $password = '')
