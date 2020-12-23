@@ -6,8 +6,10 @@ use pushjs\Library\Enum\UpcHttpRequestMode;
 use pushjs\Library\Enum\UpcHttpRequestParam;
 use pushjs\Library\Enum\UpcMessageId;
 use pushjs\Library\Http\ConnectionManager;
+use pushjs\Library\Http\RequestNumber;
 use pushjs\Library\Querybuilder\HttpQueryBuilder;
 use pushjs\Library\Upcbuilder\UpcBuilder;
+use pushjs\Library\Upcreader\UpcReader;
 
 class ChannelManager
 {
@@ -51,26 +53,64 @@ class ChannelManager
         return $channel;
     }
 
-    public function joinChannel(string $channelId, string $password = '')
+    public function joinChannel(string $channelId, string $password = ''): bool
     {
-        $upc = new UpcBuilder(UpcMessageId::SEND_MODULE_MESSAGE);
-        $upc->addArgument('PushJS');
-        $upc->addArgument("JOIN_CHANNEL");
-        $upc->addArgument("channelId|" . $channelId);
+        $builder = new UpcBuilder(UpcMessageId::SEND_MODULE_MESSAGE);
+        $builder->addArgument('PushJS');
+        $builder->addArgument("JOIN_CHANNEL");
+        $builder->addArgument("channelId|" . $channelId);
 
         if (!empty($password)) {
-            $upc->addArgument("password|" . $password);
+            $builder->addArgument("password|" . $password);
         }
 
         $data = $this->queryBuilder->buildHttpQuery(
             UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
             array(
-                UpcHttpRequestParam::HTTP_REQUEST_PARAM_DATA => utf8_encode($upc->getUpc())
+                UpcHttpRequestParam::HTTP_REQUEST_PARAM_DATA => utf8_encode($builder->getUpc())
             ),
             $this->connectionManager->getRequestNumber(),
             $this->connectionManager->getSessionId()
         );
 
         $this->connectionManager->getHttpClient()->send($data);
+        $pip = $this->connectionManager->getHttpClient()->poll($this->connectionManager->getRequestNumber(), $this->connectionManager->getSessionId());
+echo "---- pip ---- \n";
+
+        $xml = (new UpcReader())->read($pip);
+var_dump($xml->xpath('/root/U')[1]->xpath('/L'));
+        foreach ($xml->xpath('/root/U')[1]->xpath('/L/A') as $client) {
+            echo (string) $client;
+        }
+        return true;
+    }
+
+    public function getClients(string $channelId)
+    {
+        $builder = new UpcBuilder(UpcMessageId::GET_CHANNEL_CLIENTS);
+        $builder->addArgument('_eba02592-2b87-437b-b363-766cbd87230e_' . $channelId);
+
+        $data = $this->queryBuilder->buildHttpQuery(
+            UpcHttpRequestMode::HTTP_REQUEST_MODE_SEND,
+            array(
+                UpcHttpRequestParam::HTTP_REQUEST_PARAM_DATA => utf8_encode($builder->getUpc())
+            ),
+            $this->connectionManager->getRequestNumber(),
+            $this->connectionManager->getSessionId()
+        );
+
+        $this->connectionManager->getHttpClient()->send($data);
+
+        $pip = $this->connectionManager->getHttpClient()->poll(
+            $this->connectionManager->getRequestNumber(),
+            $this->connectionManager->getSessionId()
+        );
+
+        var_dump($pip);
+
+
+        $xml = (new UpcReader())->read($pip);
+
+        var_dump($xml);
     }
 }

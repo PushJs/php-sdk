@@ -47,7 +47,7 @@ class PushJS
         $this->connectionManager->handshake();
         $this->clientManager->setAttribute('apikey', $this->key);
 
-        return new Client($this->connectionManager->getClientId(), ['key' => $this->key]);
+        return new Client($this->clientManager, $this->connectionManager->getClientId(), ['key' => $this->key]);
     }
 
     public function getConnectionManager(): ConnectionManager

@@ -4,24 +4,22 @@ namespace pushjs\Library\Client;
 
 class Client
 {
-    private $id;
+    private $clientId;
+
+    private $clientManager;
 
     private $attributes;
 
-    public function __construct(int $id, array $attributes = [])
+    public function __construct(ClientManager $clientManager, int $clientId, array $attributes = [])
     {
-        $this->id = $id;
+        $this->clientManager = $clientManager;
+        $this->clientId = $clientId;
         $this->attributes = $attributes;
     }
 
-    public function getId(): int
+    public function getClientId(): int
     {
-        return $this->id;
-    }
-
-    public function setId(int $id)
-    {
-        $this->id = $id;
+        return $this->clientId;
     }
 
     public function getAttributes(): array
@@ -32,5 +30,15 @@ class Client
     public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
+    }
+
+    public function setAttribute(string $name, $value): bool
+    {
+        return $this->clientManager->setAttribute($name, $value);
+    }
+
+    public function getAttribute(string $name)
+    {
+        return $this->attributes[$name] ?? null;
     }
 }

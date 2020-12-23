@@ -8,6 +8,7 @@ use pushjs\Library\Enum\UpcMessageId;
 use pushjs\Library\Http\ConnectionManager;
 use pushjs\Library\Querybuilder\HttpQueryBuilder;
 use pushjs\Library\Upcbuilder\UpcBuilder;
+use pushjs\Library\Upcreader\UpcReader;
 
 class ClientManager
 {
@@ -21,7 +22,7 @@ class ClientManager
         $this->queryBuilder = new HttpQueryBuilder();
     }
 
-    public function setAttribute(string $name, string $value)
+    public function setAttribute(string $name, string $value): bool
     {
         $upc = new UpcBuilder(UpcMessageId::SET_CLIENT_ATTR);
         $upc->addArgument($this->connectionManager->getClientId());
@@ -41,11 +42,9 @@ class ClientManager
         );
 
         $this->connectionManager->getHttpClient()->send($data);
+        $pip = $this->connectionManager->getHttpClient()->poll($this->connectionManager->getRequestNumber(), $this->connectionManager->getSessionId());
+        $xml = (new UpcReader())->read($pip);
 
-//        $upc = $this->connectionManager->getHttpClient()->poll();
-//
-//        return $this->upcReader->read($upc);
-//
-//        return (string) $xml->xpath('/root/U/L/A')[5] === 'SUCCESS';
+        return (string) $xml->xpath('/root/U/L/A')[5] === 'SUCCESS';
     }
 }

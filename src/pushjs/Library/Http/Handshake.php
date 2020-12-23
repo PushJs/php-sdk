@@ -70,7 +70,7 @@ class Handshake
         );
 
         $par = $this->httpClient->send($data);
-        $par .= $this->httpClient->poll($this->requestNumber, $sessionId);
+        $par .= $this->httpClient->poll($this->requestNumber->getRequestNumber(), $sessionId);
 
         return $this->upcReader->read($par);
     }

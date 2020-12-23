@@ -31,4 +31,6 @@ class UpcMessageId
     const ATTRIBUTE_PASSWORD = '_PASSWORD';
 
     const SEND_MODULE_MESSAGE = 'u71';
+
+    const GET_CHANNEL_CLIENTS = 'u55';
 }

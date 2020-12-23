@@ -59,7 +59,7 @@ class HttpsClient implements HttpClientInterface
         return '';
     }
 
-    public function poll(RequestNumber $requestNumber, string $sessionId): string
+    public function poll(int $requestNumber, string $sessionId): string
     {
         if (empty($sessionId)) {
             throw new PhpunionplatformException('Session id can not be empty');
@@ -70,7 +70,7 @@ class HttpsClient implements HttpClientInterface
         $data = $builder->buildHttpQuery(
             UpcHttpRequestMode::HTTP_REQUEST_MODE_RECEIVE,
             [],
-            $requestNumber->getRequestNumber(),
+            $requestNumber,
             $sessionId
         );
 
