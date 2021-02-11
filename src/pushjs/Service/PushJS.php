@@ -29,7 +29,9 @@ class PushJS
 
     private $eventManager;
 
-    public function __construct(string $apiKey, string $host = '', int $port = 0, bool $secure = false)
+    private $client;
+
+    public function __construct(string $apiKey, string $host = '', int $port = 0, bool $secure = true)
     {
         $this->key = $apiKey;
         $this->host = $host;
@@ -40,6 +42,7 @@ class PushJS
         $this->channelManager = new ChannelManager($this->connectionManager);
         $this->clientManager = new ClientManager($this->connectionManager);
         $this->eventManager = new EventManager($this->connectionManager);
+        $this->connect();
     }
 
     public function connect(): Client
@@ -47,7 +50,13 @@ class PushJS
         $this->connectionManager->handshake();
         $this->clientManager->setAttribute('apikey', $this->key);
 
-        return new Client($this->clientManager, $this->connectionManager->getClientId(), ['key' => $this->key]);
+        $this->client = new Client($this->clientManager, $this->connectionManager->getClientId(), ['key' => $this->key]);
+        return $this->client;
+    }
+
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 
     public function getConnectionManager(): ConnectionManager

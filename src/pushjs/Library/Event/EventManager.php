@@ -65,13 +65,13 @@ class EventManager
         $this->connectionManager->getHttpClient()->send($data);
     }
 
-    public function dispatchFilteredEvent(string $channelId, string $event, string $message)
+    public function dispatchFilteredEvent(string $channelId, string $event, string $message, array $filters)
     {
         $builder = new UpcBuilder(UpcMessageId::SEND_MODULE_MESSAGE);
 
         $builder->addArgument('PushJS');
         $builder->addArgument("FILTERED_MESSAGE");
-        $builder->addArgument("filters|" . json_encode(['color' => 'red']));
+        $builder->addArgument("filters|" . json_encode($filters));
         $builder->addArgument("channelId|" . $channelId);
         $builder->addArgument("message|"  . $message);
         $builder->addArgument("event|"  . $event);

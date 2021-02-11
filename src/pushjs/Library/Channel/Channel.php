@@ -3,7 +3,6 @@
 namespace pushjs\Library\Channel;
 
 use pushjs\Library\Client\Client;
-use pushjs\Library\Upcreader\UpcReader;
 
 class Channel
 {
@@ -54,17 +53,9 @@ class Channel
 
     public function join(Client $client, string $password = ''): bool
     {
-        $pip = $this->channelManager->joinChannel($this->channelId, $password);
+        $this->channelManager->joinChannel($this->channelId, $password);
         $this->clients[] = $client;
 
-        //$pip = $this->channelManager->getClients($this->channelId);
-
-//        try {
-//            $xml = (new UpcReader())->read($pip);
-//        } catch (\Exception $e) {}
-//
-//        echo "_______\n";
-//        var_dump($xml);
         return true;
     }
 }
