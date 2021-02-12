@@ -12,7 +12,7 @@ For basic usage, register at https://pushjs.io.
 
 require "vendor/autoload.php";
 
-use \pushjs\Service\PushJS;
+use \PushJS\Service\PushJS;
 
 $pushJS = new PushJS('your-api-key', 'eu-1.pushjs.io', 9101);
 

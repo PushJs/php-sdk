@@ -6,9 +6,9 @@
  * Time: 17:11
  */
 
-namespace pushjs\Library\Querybuilder;
+namespace PushJS\Library\Querybuilder;
 
-use pushjs\Exception\PhpunionplatformException;
+use PushJS\Exception\PhpunionplatformException;
 
 class HttpQueryBuilder
 {

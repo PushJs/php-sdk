@@ -1,6 +1,6 @@
 <?php
 
-namespace pushjs\Library\Enum;
+namespace PushJS\Library\Enum;
 
 class UpcHttpRequestParam
 {

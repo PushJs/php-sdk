@@ -1,15 +1,15 @@
 <?php
 
-namespace pushjs\Library\Channel;
+namespace PushJS\Library\Channel;
 
-use pushjs\Library\Enum\UpcHttpRequestMode;
-use pushjs\Library\Enum\UpcHttpRequestParam;
-use pushjs\Library\Enum\UpcMessageId;
-use pushjs\Library\Http\ConnectionManager;
-use pushjs\Library\Http\RequestNumber;
-use pushjs\Library\Querybuilder\HttpQueryBuilder;
-use pushjs\Library\Upcbuilder\UpcBuilder;
-use pushjs\Library\Upcreader\UpcReader;
+use PushJS\Library\Enum\UpcHttpRequestMode;
+use PushJS\Library\Enum\UpcHttpRequestParam;
+use PushJS\Library\Enum\UpcMessageId;
+use PushJS\Library\Http\ConnectionManager;
+use PushJS\Library\Http\RequestNumber;
+use PushJS\Library\Querybuilder\HttpQueryBuilder;
+use PushJS\Library\Upcbuilder\UpcBuilder;
+use PushJS\Library\Upcreader\UpcReader;
 
 class ChannelManager
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace pushjs\Library\Upcbuilder;
+namespace PushJS\Library\Upcbuilder;
 
-use pushjs\Library\Enum\UpcFilterNodeAttribute;
-use pushjs\Library\Enum\UpcNodeType;
+use PushJS\Library\Enum\UpcFilterNodeAttribute;
+use PushJS\Library\Enum\UpcNodeType;
 
 class UpcBuilder
 {

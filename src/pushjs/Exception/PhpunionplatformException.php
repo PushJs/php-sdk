@@ -1,6 +1,6 @@
 <?php
 
-namespace pushjs\Exception;
+namespace PushJS\Exception;
 
 class PhpunionplatformException extends \Exception
 {

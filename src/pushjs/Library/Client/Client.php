@@ -1,6 +1,6 @@
 <?php
 
-namespace pushjs\Library\Client;
+namespace PushJS\Library\Client;
 
 class Client
 {

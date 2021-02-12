@@ -1,13 +1,13 @@
 <?php
 
-namespace pushjs\Service;
+namespace PushJS\Service;
 
-use pushjs\Library\Channel\ChannelManager;
-use pushjs\Library\Client\Client;
-use pushjs\Library\Client\ClientManager;
-use pushjs\Library\Event\EventManager;
-use pushjs\Library\Http\ConnectionManager;
-use pushjs\Library\Http\HttpsClient;
+use PushJS\Library\Channel\ChannelManager;
+use PushJS\Library\Client\Client;
+use PushJS\Library\Client\ClientManager;
+use PushJS\Library\Event\EventManager;
+use PushJS\Library\Http\ConnectionManager;
+use PushJS\Library\Http\HttpsClient;
 
 class PushJS
 {

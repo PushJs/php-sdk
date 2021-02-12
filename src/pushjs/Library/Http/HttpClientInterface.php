@@ -1,6 +1,6 @@
 <?php
 
-namespace pushjs\Library\Http;
+namespace PushJS\Library\Http;
 
 interface HttpClientInterface
 {

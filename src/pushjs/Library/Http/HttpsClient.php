@@ -1,10 +1,10 @@
 <?php
 
-namespace pushjs\Library\Http;
+namespace PushJS\Library\Http;
 
-use pushjs\Exception\PhpunionplatformException;
-use pushjs\Library\Enum\UpcHttpRequestMode;
-use pushjs\Library\Querybuilder\HttpQueryBuilder;
+use PushJS\Exception\PhpunionplatformException;
+use PushJS\Library\Enum\UpcHttpRequestMode;
+use PushJS\Library\Querybuilder\HttpQueryBuilder;
 
 class HttpsClient implements HttpClientInterface
 {

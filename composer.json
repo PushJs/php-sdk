@@ -12,7 +12,7 @@
   },
   "autoload": {
     "psr-4": {
-      "pushjs\\": "src/pushjs"
+      "PushJS\\": "src/pushjs"
     }
   }
 }

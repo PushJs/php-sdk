@@ -1,8 +1,8 @@
 <?php
 
-namespace pushjs\Library\Upcreader;
+namespace PushJS\Library\Upcreader;
 
-use pushjs\Library\Http\ConnectionManager;
+use PushJS\Library\Http\ConnectionManager;
 
 class UpcReader
 {
