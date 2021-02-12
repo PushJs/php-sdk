@@ -2,7 +2,7 @@
 
 namespace Pushjs\Library\Http;
 
-use Pushjs\Library\queryBuilder\HttpqueryBuilder;
+use Pushjs\Library\Querybuilder\HttpQueryBuilder;
 use Pushjs\Library\Upcreader\UpcReader;
 
 class ConnectionManager
@@ -23,7 +23,7 @@ class ConnectionManager
     {
         $this->httpClient = $httpClient;
         $this->upcReader = new UpcReader();
-        $this->queryBuilder = new HttpqueryBuilder();
+        $this->queryBuilder = new HttpQueryBuilder();
         $this->requestNumber = new RequestNumber();
     }
 

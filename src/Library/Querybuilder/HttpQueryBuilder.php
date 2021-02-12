@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daems
- * Date: 23-06-16
- * Time: 17:11
- */
 
 namespace Pushjs\Library\Querybuilder;
 
@@ -23,7 +17,6 @@ class HttpQueryBuilder
     public function __construct()
     {
     }
-
 
     public function buildHttpQuery(string $mode, array $params, int $rid, string $sid = '')
     {
