@@ -1,6 +1,6 @@
 <?php
 
-namespace pushjs\Library\Client;
+namespace pushjs\Library\Http;
 
 use pushjs\Exception\PhpunionplatformException;
 
