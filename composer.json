@@ -1,18 +1,18 @@
 {
   "name": "pushjs/php-sdk",
-  "description": "A php library for pushjs.io",
+  "description": "A PHP library for pushjs.io",
   "keywords": [
     "socket server",
     "push messages"
   ],
-  "homepage": "https://pushjs.io",
+  "homepage": "https://www.pushjs.io",
   "license": "MIT",
   "require": {
     "php": "^7.0 || ^8"
   },
   "autoload": {
     "psr-4": {
-      "PushJS\\": "src/pushjs"
+      "PushJS\\": "src/PushJS"
     }
   }
 }

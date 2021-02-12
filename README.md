@@ -2,7 +2,11 @@
 
 ## Introduction
 
-For basic usage, register at https://pushjs.io.
+For basic usage, register at https://pushjs.io. This client provides a basic functionality to communicate with Javascript realtime!
+<br>The client can send messages in various formats (for example: JSON). 
+<br><br>
+Example: if a user has a browser open with the PushJS javascript client loaded, a backend PHP script can communicate with
+<br>each other through our services. Yes, finally a PHP client that can communicate realtime to Javascript.
 
 ## Examples
 ### The basic initialization
