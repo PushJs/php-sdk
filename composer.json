@@ -1,12 +1,19 @@
 {
   "name": "pushjs/php-sdk",
   "description": "A PHP library for pushjs.io",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://www.pushjs.io",
   "keywords": [
     "socket server",
     "push messages"
   ],
-  "homepage": "https://www.pushjs.io",
-  "license": "MIT",
+  "authors": [
+    {
+      "name": "Willem Daems",
+      "email": "willem@pushjs.io"
+    }
+  ],
   "require": {
     "php": "^7.0 || ^8"
   },
@@ -14,5 +21,9 @@
     "psr-4": {
       "PushJS\\": "src/pushjs"
     }
-  }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev"
 }
