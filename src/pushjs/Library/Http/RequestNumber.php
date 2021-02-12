@@ -1,6 +1,6 @@
 <?php
 
-namespace PushJS\Library\Http;
+namespace Pushjs\Library\Http;
 
 class RequestNumber
 {

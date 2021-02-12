@@ -1,15 +1,15 @@
 <?php
 
-namespace PushJS\Service;
+namespace Pushjs\Service;
 
-use PushJS\Exception\PhpunionplatformException;
-use PushJS\Library\Client\HttpClientInterface;
-use PushJS\Library\Querybuilder\HttpQueryBuilder;
-use PushJS\Library\Enum\UpcHttpRequestMode;
-use PushJS\Library\Enum\UpcHttpRequestParam;
-use PushJS\Library\Enum\UpcMessageId;
-use PushJS\Library\Upcbuilder\UpcBuilder;
-use PushJS\Library\Upcreader\UpcReader;
+use Pushjs\Exception\PushjsException;
+use Pushjs\Library\Client\HttpClientInterface;
+use Pushjs\Library\Querybuilder\HttpQueryBuilder;
+use Pushjs\Library\Enum\UpcHttpRequestMode;
+use Pushjs\Library\Enum\UpcHttpRequestParam;
+use Pushjs\Library\Enum\UpcMessageId;
+use Pushjs\Library\Upcbuilder\UpcBuilder;
+use Pushjs\Library\Upcreader\UpcReader;
 
 class Unionplatform
 {
@@ -120,7 +120,7 @@ class Unionplatform
      * documentation. send a 65 CLIENT HELLO
      *
      * @return string
-     * @throws PhpunionplatformException
+     * @throws PushjsException
      */
     public function handshake(): bool
     {
@@ -266,7 +266,7 @@ class Unionplatform
     public function poll(): string
     {
         if (empty($this->sessionId)) {
-            throw new PhpunionplatformException('Session id can not be empty');
+            throw new PushjsException('Session id can not be empty');
         }
 
         // create a postfield query string

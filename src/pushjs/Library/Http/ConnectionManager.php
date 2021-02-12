@@ -1,9 +1,9 @@
 <?php
 
-namespace PushJS\Library\Http;
+namespace Pushjs\Library\Http;
 
-use PushJS\Library\queryBuilder\HttpqueryBuilder;
-use PushJS\Library\Upcreader\UpcReader;
+use Pushjs\Library\queryBuilder\HttpqueryBuilder;
+use Pushjs\Library\Upcreader\UpcReader;
 
 class ConnectionManager
 {

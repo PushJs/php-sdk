@@ -1,8 +1,8 @@
 <?php
 
-namespace PushJS\Library\Channel;
+namespace Pushjs\Library\Channel;
 
-use PushJS\Library\Client\Client;
+use Pushjs\Library\Client\Client;
 
 class Channel
 {

@@ -16,7 +16,7 @@ Example: if a user has a browser open with the PushJS javascript client loaded, 
 
 require "vendor/autoload.php";
 
-use \PushJS\Service\PushJS;
+use \Pushjs\Service\PushJS;
 
 $pushJS = new PushJS('your-api-key', 'eu-1.pushjs.io', 9101);
 

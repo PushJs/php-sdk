@@ -1,13 +1,13 @@
 <?php
 
-namespace PushJS\Library\Event;
+namespace Pushjs\Library\Event;
 
-use PushJS\Library\Enum\UpcHttpRequestMode;
-use PushJS\Library\Enum\UpcHttpRequestParam;
-use PushJS\Library\Enum\UpcMessageId;
-use PushJS\Library\Http\ConnectionManager;
-use PushJS\Library\Querybuilder\HttpQueryBuilder;
-use PushJS\Library\Upcbuilder\UpcBuilder;
+use Pushjs\Library\Enum\UpcHttpRequestMode;
+use Pushjs\Library\Enum\UpcHttpRequestParam;
+use Pushjs\Library\Enum\UpcMessageId;
+use Pushjs\Library\Http\ConnectionManager;
+use Pushjs\Library\Querybuilder\HttpQueryBuilder;
+use Pushjs\Library\Upcbuilder\UpcBuilder;
 
 class EventManager
 {

@@ -6,9 +6,9 @@
  * Time: 17:11
  */
 
-namespace PushJS\Library\Querybuilder;
+namespace Pushjs\Library\Querybuilder;
 
-use PushJS\Exception\PhpunionplatformException;
+use Pushjs\Exception\PushjsException;
 
 class HttpQueryBuilder
 {
@@ -28,7 +28,7 @@ class HttpQueryBuilder
     public function buildHttpQuery(string $mode, array $params, int $rid, string $sid = '')
     {
         if (strpos('sdc', $this->modes) === false) {
-            throw new PhpunionplatformException('wrong mode');
+            throw new PushjsException('wrong mode');
         }
 
         $data = [

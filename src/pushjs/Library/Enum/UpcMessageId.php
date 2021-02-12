@@ -1,6 +1,6 @@
 <?php
 
-namespace PushJS\Library\Enum;
+namespace Pushjs\Library\Enum;
 
 class UpcMessageId
 {

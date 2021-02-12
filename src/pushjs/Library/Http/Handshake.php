@@ -1,13 +1,13 @@
 <?php
 
-namespace PushJS\Library\Http;
+namespace Pushjs\Library\Http;
 
-use PushJS\Library\Enum\UpcHttpRequestMode;
-use PushJS\Library\Enum\UpcHttpRequestParam;
-use PushJS\Library\Enum\UpcMessageId;
-use PushJS\Library\Querybuilder\HttpQueryBuilder;
-use PushJS\Library\Upcbuilder\UpcBuilder;
-use PushJS\Library\Upcreader\UpcReader;
+use Pushjs\Library\Enum\UpcHttpRequestMode;
+use Pushjs\Library\Enum\UpcHttpRequestParam;
+use Pushjs\Library\Enum\UpcMessageId;
+use Pushjs\Library\Querybuilder\HttpQueryBuilder;
+use Pushjs\Library\Upcbuilder\UpcBuilder;
+use Pushjs\Library\Upcreader\UpcReader;
 
 class Handshake
 {

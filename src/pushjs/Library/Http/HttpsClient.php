@@ -1,10 +1,10 @@
 <?php
 
-namespace PushJS\Library\Http;
+namespace Pushjs\Library\Http;
 
-use PushJS\Exception\PhpunionplatformException;
-use PushJS\Library\Enum\UpcHttpRequestMode;
-use PushJS\Library\Querybuilder\HttpQueryBuilder;
+use Pushjs\Exception\PushjsException;
+use Pushjs\Library\Enum\UpcHttpRequestMode;
+use Pushjs\Library\Querybuilder\HttpQueryBuilder;
 
 class HttpsClient implements HttpClientInterface
 {
@@ -62,7 +62,7 @@ class HttpsClient implements HttpClientInterface
     public function poll(int $requestNumber, string $sessionId): string
     {
         if (empty($sessionId)) {
-            throw new PhpunionplatformException('Session id can not be empty');
+            throw new PushjsException('Session id can not be empty');
         }
 
         $builder = new HttpQueryBuilder();
@@ -88,7 +88,7 @@ class HttpsClient implements HttpClientInterface
         );
 
         if (empty($socket)) {
-            throw new PhpunionplatformException('Connection timeout');
+            throw new PushjsException('Connection timeout');
         }
 
         stream_set_timeout($socket, $this->timeout);
@@ -98,7 +98,7 @@ class HttpsClient implements HttpClientInterface
             $success = stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
 
             if ($success === false) {
-                throw new PhpunionplatformException('SSL negotiation failed');
+                throw new PushjsException('SSL negotiation failed');
             }
         }
 
