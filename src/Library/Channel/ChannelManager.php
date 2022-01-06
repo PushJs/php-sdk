@@ -75,13 +75,7 @@ class ChannelManager
 
         $this->connectionManager->getHttpClient()->send($data);
         $pip = $this->connectionManager->getHttpClient()->poll($this->connectionManager->getRequestNumber(), $this->connectionManager->getSessionId());
-echo "---- pip ---- \n";
 
-        $xml = (new UpcReader())->read($pip);
-var_dump($xml->xpath('/root/U')[1]->xpath('/L'));
-        foreach ($xml->xpath('/root/U')[1]->xpath('/L/A') as $client) {
-            echo (string) $client;
-        }
         return true;
     }
 
@@ -106,11 +100,6 @@ var_dump($xml->xpath('/root/U')[1]->xpath('/L'));
             $this->connectionManager->getSessionId()
         );
 
-        var_dump($pip);
-
-
         $xml = (new UpcReader())->read($pip);
-
-        var_dump($xml);
     }
 }
